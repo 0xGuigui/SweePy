@@ -278,6 +278,17 @@ def clean_windows_temporary_installation_files():
         print("Windows temporary installation files cleaned.")
         pass
 
+def delete_outlook_files():
+    # Suppression du .ost de Outlook
+    if messagebox.askyesno("Confirmation", "Voulez-vous supprimer les fichiers Outlook ?"):
+        print("Deleting Outlook files...")
+        try:
+            os.system("powershell.exe -command \"Remove-Item -Path 'C:\\Users\\%USERNAME%\\AppData\\Local\\Microsoft\\Outlook\\*.ost' -Force -Recurse -Verbose\"")
+        except:
+            print("Failed to delete Outlook files.")
+            return
+        print("Outlook files deleted.")
+
 # Fonction pour mesurer l'espace disque utilisé
 def get_disk_space_used():
     try:
