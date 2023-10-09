@@ -10,6 +10,9 @@ import winreg
 import win32com.client
 import pythoncom
 
+def set_console_title():
+    ctypes.windll.kernel32.SetConsoleTitleW("PyCleaner v0.2b")
+
 def check_if_admin():
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
@@ -81,7 +84,14 @@ def clean_recycle_bin():
             # Vider la corbeille en utilisant pywin32
             shell = win32com.client.Dispatch("Shell.Application")
             recycle_bin = shell.NameSpace(10)
-            recycle_bin.Items().InvokeVerb("Empty Recycle Bin")
+            
+            # Obtenir les éléments de la corbeille
+            items = recycle_bin.Items()
+            
+            # Supprimer chaque élément de la corbeille
+            for item in items:
+                item.InvokeVerb("Delete")
+            
             print("Corbeille vidée avec succès")
         except Exception as e:
             show_error_dialog(f"Erreur lors du nettoyage de la corbeille : {str(e)}")
@@ -307,6 +317,10 @@ def clear_browser_cache():
 
 
 def main():
+
+    # Définir le titre de la console
+    set_console_title()
+    
     # Récupérer l'espace disque avant le nettoyage
     disk_usage_before = shutil.disk_usage(os.environ["SYSTEMDRIVE"])
 
