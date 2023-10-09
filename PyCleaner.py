@@ -10,20 +10,6 @@ import winreg
 import win32com.client
 import pythoncom
 
-
-# @TODO: Ajouter la suppression des fichiers de mise à jour Windows | OK
-# @TODO: Ajouter la suppression des miniatures | OK
-# @TODO: Ajouter la suppression des éléments dans la corbeille | OK
-# @TODO: Ajouter la suppression des fichiers de ressources langue | OK
-# @TODO: Ajouter la suppression des fichiers de logs | OK
-# @TODO: Ajouter la suppression d'optimisation de livraison des mise à jour Windows | OK
-# @TODO: Ajouter la suppression des fichiers de rapport d'erreur | OK
-# @TODO: Ajouter la suppression du Shader Cache DirectX | OK
-# @TODO: Ajouter la suppression des fichiers temporaires d'Internet Explorer | OK
-# @TODO: Ajouter la suppression des fichiers dans le dossier Prefetch | OK
-# @TODO: Ajouter la suppression des fichiers dans le dossier Téléchargements/Downloads au format .exe/.msi/.bat/.tmp | OK
-# @TODO: Vider le cache + quarantaine de Windows Defender | OK
-
 def check_if_admin():
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
