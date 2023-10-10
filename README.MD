@@ -1,8 +1,8 @@
-<div align="center"><H1>PyCleaner</H1></div>
+<div align="center"><H1>SweePy</H1></div>
 
-<div align="center"><img src="resources/images/PyCleaner.png" width=250></div>
+<div align="center"><img src="resources/images/SweePy.png" width=250></div>
 </br>
-PyCleaner est un programme Python qui permet de nettoyer votre ordinateur en supprimant les fichiers temporaires, les fichiers de mise à jour Windows, les fichiers journaux, les fichiers de rapport d'erreur, les fichiers de cache des navigateurs, les fichiers de la corbeille, les fichiers de la cache de DirectX Shader, les fichiers de la cache des miniatures, les fichiers de ressources de langue inutilisées et les fichiers de cache de courrier électronique Outlook.
+SweePy est un programme Python qui permet de nettoyer votre ordinateur en supprimant les fichiers temporaires, les fichiers de mise à jour Windows, les fichiers journaux, les fichiers de rapport d'erreur, les fichiers de cache des navigateurs, les fichiers de la corbeille, les fichiers de la cache de DirectX Shader, les fichiers de la cache des miniatures, les fichiers de ressources de langue inutilisées et les fichiers de cache de courrier électronique Outlook.
 
 ## Prérequis
 
@@ -22,16 +22,16 @@ PyCleaner est un programme Python qui permet de nettoyer votre ordinateur en sup
 ## Utilisation
 
 1. Ouvrez une invite de commande ou un terminal.
-2. Naviguez jusqu'au dossier contenant PyCleaner.py.
+2. Naviguez jusqu'au dossier contenant SweePy.py.
 3. Installez les bibliothèques Python requises :
 
    ```
    pip install -r requirements.txt
    ```
-4. Exécutez PyCleaner.py en tant qu'administrateur en utilisant la commande suivante :
+4. Exécutez SweePy.py en tant qu'administrateur en utilisant la commande suivante :
 
    ```
-   python PyCleaner.py
+   python SweePy.py
    ```
 
 5. Suivez les instructions à l'écran pour nettoyer votre ordinateur.
@@ -46,16 +46,16 @@ INFOS: Vous pouvez utiliser l'option `--yesAll` pour passer toutes les étapes d
    ```
    pip install pyinstaller
    ```
-3. Naviguez jusqu'au dossier contenant PyCleaner.py.
+3. Naviguez jusqu'au dossier contenant SweePy.py.
 4. Exécutez la commande suivante :
 
    ```
-   python3 -m PyInstaller --onefile --icon=resources/images/icon.ico PyCleaner.py
+   python3 -m PyInstaller --onefile --icon=resources/images/icon.ico --name=SweePy SweePy.py
    ```
    *Note: Vous pouvez utiliser l'option `--noconsole` pour cacher la console.*
 
 5. Naviguez jusqu'au dossier `dist`.
-6. Exécutez PyCleaner.exe en tant qu'administrateur.
+6. Exécutez SweePy.exe en tant qu'administrateur.
 
 ## Fonctionnalités
 
@@ -101,14 +101,18 @@ Supprime les fichiers de cache de courrier électronique Outlook stockés dans l
 
 ## Avertissement
 
-L'utilisation de PyCleaner est à vos risques et périls. Assurez-vous de sauvegarder vos fichiers importants avant d'utiliser PyCleaner. PyCleaner supprime des fichiers de votre ordinateur et ne peut pas être tenu responsable des pertes de données ou des dommages causés à votre système.
+L'utilisation de SweePy est à vos risques et périls. Assurez-vous de sauvegarder vos fichiers importants avant d'utiliser SweePy. SweePy supprime des fichiers de votre ordinateur et ne peut pas être tenu responsable des pertes de données ou des dommages causés à votre système.
 
 ## Informations complémentaires
 
 - **Version** : 0.1b
 - **Licence** : MIT
 - **Langage** : Python 3.x
-- **Système d'exploitation** : Windows 10 >
+- **Système d'exploitation** : Windows 10 & Windows 11
+
+## Screenshots
+
+<div align="center"><img src="resources/images/screen.png"></div>
 
 ## Auteur
 

@@ -1,6 +1,7 @@
 # Compilation folders with PyInstaller
 build/
 dist/
+__pycache__/
 
 # PyInstaller files
 *.spec
