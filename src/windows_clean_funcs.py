@@ -1,5 +1,5 @@
 from include.imports import glob, os, shutil, win32com
-from utils import *
+from src.utils import *
 
 def clean_thumbnails():
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les miniatures ?"):

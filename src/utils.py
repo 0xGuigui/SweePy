@@ -1,7 +1,7 @@
 from include.imports import ctypes, os, platform, sys, messagebox
 
 def set_console_title():
-    ctypes.windll.kernel32.SetConsoleTitleW("PyCleaner v0.3-beta")
+    ctypes.windll.kernel32.SetConsoleTitleW("SweePy v0.3-beta")
 
 def check_if_program_is_started_with_admin_rights():
     try:

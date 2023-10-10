@@ -1,4 +1,5 @@
-from include.imports import *
+from include.imports import os, shutil, sys
+from src.utils import *
 
 def add_this_program_to_windows_defender_exclusion_list():
     try:
