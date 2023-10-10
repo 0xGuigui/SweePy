@@ -115,3 +115,15 @@ def clean_Windows_Update_files():
 
         except Exception as e:
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
+
+def clean_prefetch():
+    if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers dans le dossier Prefetch ?"):
+        try:
+            # Nettoyer les fichiers dans le dossier Prefetch
+            windir = os.environ["WINDIR"]
+            prefetch_dir = os.path.join(windir, "Prefetch")
+            if os.path.isdir(prefetch_dir):
+                shutil.rmtree(prefetch_dir)
+                print(f"Suppression de {prefetch_dir}")
+        except Exception as e:
+            show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
