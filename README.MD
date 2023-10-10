@@ -50,7 +50,7 @@ INFOS: Vous pouvez utiliser l'option `--yesAll` pour passer toutes les étapes d
 4. Exécutez la commande suivante :
 
    ```
-   python3 -m PyInstaller --onefile --icon=resources/images/icon.ico PyCleaner.py
+   python3 -m PyInstaller --onefile --icon=resources/images/icon.ico --name=PyCleaner PyCleaner.py
    ```
    *Note: Vous pouvez utiliser l'option `--noconsole` pour cacher la console.*
 
@@ -108,7 +108,11 @@ L'utilisation de PyCleaner est à vos risques et périls. Assurez-vous de sauveg
 - **Version** : 0.1b
 - **Licence** : MIT
 - **Langage** : Python 3.x
-- **Système d'exploitation** : Windows 10 >
+- **Système d'exploitation** : Windows 10 & Windows 11
+
+## Screenshots
+
+<div align="center"><img src="resources/images/screen.png"></div>
 
 ## Auteur
 
