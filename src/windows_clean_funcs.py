@@ -13,19 +13,25 @@ def clean_thumbnails():
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
 
 def clean_recycle_bin():
+    # try:
+    #     # Vider la corbeille en utilisant pywin32
+    #     shell = win32com.client.Dispatch("Shell.Application")
+    #     recycle_bin = shell.NameSpace(10)
+        
+    #     # Obtenir les éléments de la corbeille
+    #     items = recycle_bin.Items()
+        
+    #     # Supprimer chaque élément de la corbeille sans confirmation
+    #     for item in list(items):
+    #         item.InvokeVerb("Delete")
+        
+    #     print("Corbeille vidée avec succès")
+    # except Exception as e:
+    #     show_error_dialog(f"Erreur lors du nettoyage de la corbeille : {str(e)}")
+    # On vérifie si la corbeille est vide
     try:
-        # Vider la corbeille en utilisant pywin32
-        shell = win32com.client.Dispatch("Shell.Application")
-        recycle_bin = shell.NameSpace(10)
-        
-        # Obtenir les éléments de la corbeille
-        items = recycle_bin.Items()
-        
-        # Supprimer chaque élément de la corbeille sans confirmation
-        for item in list(items):
-            item.InvokeVerb("Delete")
-        
-        print("Corbeille vidée avec succès")
+        print("Vidage de la corbeille")
+        os.system("rd /s /q C:\$Recycle.bin")
     except Exception as e:
         show_error_dialog(f"Erreur lors du nettoyage de la corbeille : {str(e)}")
 

@@ -4,13 +4,17 @@ from src.windows_clean_funcs import *
 from src.wd_clean_funcs import *
 
 def main():
+    version = "beta v1.0"
+
+    # Vérifier si le programme est lancé en tant qu'adm<inistrateur
+    check_if_program_is_started_with_admin_rights()
 
     # Définir le titre de la console
-    set_console_title()
+    set_console_title(version)
 
     # On arrête explorer.exe
     print("Arrêt de explorer.exe")
-    os.system("taskkill /f /im explorer.exe")
+    os.system("taskkill /f /im explorer.exe" if os.name == "nt" else "pkill explorer")
 
     # Récupérer l'espace disque avant le nettoyage
     disk_usage_before = shutil.disk_usage(os.environ["SYSTEMDRIVE"])
