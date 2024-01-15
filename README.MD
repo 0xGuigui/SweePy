@@ -116,4 +116,4 @@ L'utilisation de SweePy est à vos risques et périls. Assurez-vous de sauvegard
 
 ## Auteur
 
-- **[Guilhem Jéhanno](https://github.com/0xGuigui/)** - *Développeur*
+- **[0xGuigui](https://github.com/0xGuigui/)** - *Développeur*

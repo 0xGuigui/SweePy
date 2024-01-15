@@ -1,3 +1,8 @@
+##
+##  SweePy.py
+##  SweePy
+##
+
 from include.imports import ctypes, os, sys, messagebox, shutil, glob, windows_clean_funcs, wd_clean_funcs, others_clean_funcs
 from src.utils import *
 from src.windows_clean_funcs import *

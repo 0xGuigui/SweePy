@@ -1,3 +1,8 @@
+##
+##  utils.py
+##  SweePy
+##
+
 from include.imports import ctypes, os, platform, sys, messagebox
 
 def set_console_title(version):
@@ -30,6 +35,6 @@ def show_confirmation_dialog(message):
             return True
         else:
             return False
-    
+
 def show_error_dialog(message):
     messagebox.showerror("Erreur", message)

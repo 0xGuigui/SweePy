@@ -1,3 +1,8 @@
+##
+##  wd_clean_funcs.py
+##  SweePy
+##
+
 from include.imports import os, shutil, sys
 from src.utils import *
 

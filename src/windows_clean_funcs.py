@@ -1,3 +1,8 @@
+##
+##  windows_clean_funcs.py
+##  SweePy
+##
+
 from include.imports import glob, os, shutil, win32com
 from src.utils import *
 
