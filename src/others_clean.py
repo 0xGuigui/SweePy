@@ -84,7 +84,7 @@ def clean_outlook_temporary_files():
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers temporaires d'Outlook ?"):
         try:
             # On vérifie si Outlook est installé
-            if os.path.isdir(os.path.join(os.environ["PROGRAMFILES(X86)"], "Microsoft Office", "root", "Office16")):
+            if os.path.isdir(os.path.join(os.environ["PROGRAMFILES"], "Microsoft Office", "root", "Office16")):
                 # On supprime les fichiers temporaires d'Outlook
                 shutil.rmtree(os.path.join(os.environ["LOCALAPPDATA"], "Microsoft", "Outlook", "Temp"))
                 print(f"Suppression des fichiers temporaires d'Outlook")
