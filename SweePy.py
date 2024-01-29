@@ -11,8 +11,8 @@ from src.wd_clean_funcs import *
 def main():
     version = "beta v1.0"
 
-    # Vérifier si le programme est lancé en tant qu'adm<inistrateur
-    check_if_program_is_started_with_admin_rights()
+    # Vérifier si le programme est lancé en tant qu'administrateur
+    # check_if_program_is_started_with_admin_rights()
 
     # Définir le titre de la console
     set_console_title(version)
@@ -24,9 +24,6 @@ def main():
     # Récupérer l'espace disque avant le nettoyage
     disk_usage_before = shutil.disk_usage(os.environ["SYSTEMDRIVE"])
 
-    # Vérifier si le programme est lancé en tant qu'administrateur
-    check_if_program_is_started_with_admin_rights()
-
     # Vérifier si le programme est lancé sur Windows 10 ou supérieur
     if not check_if_win10_or_higher():
         sys.exit()
@@ -34,7 +31,7 @@ def main():
     # Appel des bouches de netttoyage
     windows_clean_funcs()
     others_clean_funcs()
-    wd_clean_funcs()
+    # wd_clean_funcs()
 
     # On redémarre explorer.exe
     print("Redémarrage de explorer.exe")
