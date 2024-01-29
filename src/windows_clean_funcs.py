@@ -5,11 +5,19 @@
 
 from include.imports import glob, os, shutil, win32com
 from src.utils import *
+import winshell
+
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
 
 def clean_thumbnails():
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les miniatures ?"):
         try:
             # Nettoyer les miniatures
+            print(os.environ["USERPROFILE"])
             thumbnails_dir = os.path.join(os.environ["USERPROFILE"], "AppData", "Local", "Microsoft", "Windows", "Explorer", "thumbcache_*.db")
             for filename in glob.glob(thumbnails_dir):
                 os.remove(filename)
@@ -18,28 +26,13 @@ def clean_thumbnails():
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
 
 def clean_recycle_bin():
-    # try:
-    #     # Vider la corbeille en utilisant pywin32
-    #     shell = win32com.client.Dispatch("Shell.Application")
-    #     recycle_bin = shell.NameSpace(10)
-        
-    #     # Obtenir les éléments de la corbeille
-    #     items = recycle_bin.Items()
-        
-    #     # Supprimer chaque élément de la corbeille sans confirmation
-    #     for item in list(items):
-    #         item.InvokeVerb("Delete")
-        
-    #     print("Corbeille vidée avec succès")
-    # except Exception as e:
-    #     show_error_dialog(f"Erreur lors du nettoyage de la corbeille : {str(e)}")
-    # On vérifie si la corbeille est vide
-    try:
-        print("Vidage de la corbeille")
-        os.system("rd /s /q C:\$Recycle.bin")
-    except Exception as e:
-        show_error_dialog(f"Erreur lors du nettoyage de la corbeille : {str(e)}")
-
+    if show_confirmation_dialog(message="Voulez-vous vraiment vider la corbeille ?"):
+        try:
+            winshell.recycle_bin().empty(confirm=False,
+                show_progress=False, sound=True)
+            print("La corbeille a été vidée avec succès!")
+        except:
+            print("La corbeille est déjà vide!")
 
 def clean_language_resources():
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers de ressources langue ?"):
@@ -114,27 +107,45 @@ def clean_temporary_files():
         except Exception as e:
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
 
+# Admin rights required
 def clean_Windows_Update_files():
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers de mise à jour Windows ?"):
         try:
-            # Nettoyer les fichiers de mise à jour Windows
-            windir = os.environ["WINDIR"]
+            # Get the Windows directory
+            windir = os.path.expandvars("%WINDIR%")
             windows_update_dir = os.path.join(windir, "SoftwareDistribution", "Download")
+
+            # Check if the directory exists
             if os.path.isdir(windows_update_dir):
+                # Delete the directory
                 shutil.rmtree(windows_update_dir)
                 print(f"Suppression de {windows_update_dir}")
+
+                # Recreate the directory
+                os.makedirs(windows_update_dir)
+                print(f"Recreation de {windows_update_dir}")
 
         except Exception as e:
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
 
+
+# Admin rights required
 def clean_prefetch():
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers dans le dossier Prefetch ?"):
         try:
-            # Nettoyer les fichiers dans le dossier Prefetch
-            windir = os.environ["WINDIR"]
+            # Get the Windows directory
+            windir = os.path.expandvars("%WINDIR%")
             prefetch_dir = os.path.join(windir, "Prefetch")
+
+            # Check if the directory exists
             if os.path.isdir(prefetch_dir):
+                # Delete the directory
                 shutil.rmtree(prefetch_dir)
                 print(f"Suppression de {prefetch_dir}")
+
+                # Recreate the directory
+                os.makedirs(prefetch_dir)
+                print(f"Recreation de {prefetch_dir}")
+
         except Exception as e:
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
