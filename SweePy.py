@@ -9,7 +9,7 @@ from src.windows_clean_funcs import *
 from src.wd_clean_funcs import *
 
 def main():
-    version = "beta 24w06a"
+    version = "beta 24w06b"
 
     # Vérifier si le programme est lancé en tant qu'administrateur
     # check_if_program_is_started_with_admin_rights()
