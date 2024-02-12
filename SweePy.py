@@ -3,13 +3,13 @@
 ##  SweePy
 ##
 
-from include.imports import ctypes, os, sys, messagebox, shutil, glob, windows_clean_funcs, wd_clean_funcs, others_clean_funcs
+from include.imports import ctypes, os, sys, messagebox, shutil, glob, windows_clean_funcs, wd_clean_funcs, others_clean_funcs, delete_elements_from_config
 from src.utils import *
 from src.windows_clean_funcs import *
 from src.wd_clean_funcs import *
 
 def main():
-    version = "beta 24w06b"
+    version = "0.1.0"
 
     # Vérifier si le programme est lancé en tant qu'administrateur
     # check_if_program_is_started_with_admin_rights()
@@ -31,6 +31,7 @@ def main():
     # Appel des bouches de netttoyage
     windows_clean_funcs()
     others_clean_funcs()
+    delete_elements_from_config(config.cfg)
     # wd_clean_funcs()
 
     # On redémarre explorer.exe
