@@ -14,6 +14,8 @@ from src.windows_clean_funcs import *
 from src.wd_clean_funcs import *
 from src.utils import *
 from src.others_clean import *
+from src.custom_delete import *
+
 
 def windows_clean_funcs():
     # On récupère les fonctions de nettoyage
@@ -31,7 +33,7 @@ def wd_clean_funcs():
 
 def others_clean_funcs():
     # On récupère les fonctions de nettoyage
-    clean_funcs = [clean_downloads, clear_browser_cache, clean_outlook_temporary_files]
+    clean_funcs = [clean_downloads, clear_browser_cache, clean_outlook_temporary_files, delete_elements_from_config('config.ini')]
     # On exécute les fonctions de nettoyage
     for func in clean_funcs:
         func()

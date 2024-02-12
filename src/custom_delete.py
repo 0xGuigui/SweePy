@@ -7,6 +7,11 @@ from include.imports import ctypes, os, sys, messagebox, shutil, glob, configpar
 
 
 def delete_elements_from_config(file_path):
+    # Vérifier si le fichier de configuration existe
+    if not os.path.isfile(file_path):
+        print("Fichier de configuration inexistant, passé")
+        return
+
     # Créer une instance de ConfigParser
     config = configparser.ConfigParser()
 
