@@ -4,7 +4,8 @@
 ##
 
 from src.utils import *
-from include.imports import os, shutil, glob, time
+from include.imports import os, shutil, glob
+import time
 
 def clean_downloads(username):
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers dans le dossier Téléchargements/Downloads au format .exe/.msi/.bat/.tmp ?"):
@@ -127,5 +128,58 @@ def clean_outlook_temporary_files(username):
 
             else:
                 print("Outlook n'est pas installé")
+        except Exception as e:
+            show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
+
+def vmware_log_files():
+    if ctypes.windll.shell32.IsUserAnAdmin() == 0:
+        print("Nettoyage des fichiers journaux VMware nécessite des droits d'administrateur")
+        return
+    if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers journaux VMware ?"):
+        try:
+            # Nettoyer les fichiers journaux VMware
+            vmware_log_path = os.path.join(os.environ["PROGRAMDATA"], "VMware", "VDM", "logs")
+            if os.path.isdir(vmware_log_path):
+                shutil.rmtree(vmware_log_path)
+                print("Suppression des fichiers journaux VMware")
+        except Exception as e:
+            show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
+
+def assembly_temp():
+    if ctypes.windll.shell32.IsUserAnAdmin() == 0:
+        print("Nettoyage des fichiers temporaires d'assemblage nécessite des droits d'administrateur")
+        return
+    if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers temporaires d'assemblage ?"):
+        try:
+            # Nettoyer les fichiers temporaires d'assemblage
+            assembly_temp_path = os.path.join(os.environ["WINDIR"], "assembly", "temp")
+            if os.path.isdir(assembly_temp_path):
+                shutil.rmtree(assembly_temp_path)
+                print("Suppression des fichiers temporaires d'assemblage")
+        except Exception as e:
+            show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
+
+def remove_microsoft_temp():
+    if ctypes.windll.shell32.IsUserAnAdmin() == 0:
+        print("Nettoyage des fichiers temporaires Microsoft nécessite des droits d'administrateur")
+        return
+    if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers temporaires Microsoft ?"):
+        try:
+            # Nettoyer les fichiers temporaires Microsoft
+            microsoft_temp_path = os.path.join(os.environ["PROGRAMFILES(X86)"], "Microsoft", "Temp")
+            if os.path.isdir(microsoft_temp_path):
+                shutil.rmtree(microsoft_temp_path)
+                print("Suppression des fichiers temporaires Microsoft")
+        except Exception as e:
+            show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
+
+def remove_teams_temp(username):
+    if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers temporaires de Microsoft Teams?"):
+        try:
+            # Nettoyer les fichiers temporaires Microsoft Teams
+            teams_temp_path = os.path.join("C:\\Users", username, "AppData", "Local", "Microsoft", "Teams", "current", "resources", "tmp")
+            if os.path.isdir(teams_temp_path):
+                shutil.rmtree(teams_temp_path)
+                print("Suppression des fichiers temporaires Microsoft Teams")
         except Exception as e:
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")

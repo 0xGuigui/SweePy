@@ -15,7 +15,7 @@ from src.wd_clean_funcs import *
 from src.utils import *
 from src.others_clean import *
 from src.custom_delete import *
-import time
+
 
 
 def windows_clean_funcs(username):
@@ -34,7 +34,7 @@ def wd_clean_funcs():
 
 def others_clean_funcs(username):
     # On récupère les fonctions de nettoyage
-    clean_funcs = [lambda: clean_downloads(username), lambda: clear_browser_cache(username), lambda: clean_outlook_temporary_files(username)] #, delete_elements_from_config]
+    clean_funcs = [lambda: clean_downloads(username), lambda: clear_browser_cache(username), lambda: clean_outlook_temporary_files(username), vmware_log_files, assembly_temp, remove_microsoft_temp, lambda: remove_teams_temp(username)] #, delete_elements_from_config]
     # On exécute les fonctions de nettoyage
     for func in clean_funcs:
         func()
