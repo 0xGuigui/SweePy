@@ -7,15 +7,44 @@ from include.imports import ctypes, os, sys, messagebox, shutil, glob, windows_c
 from src.utils import *
 from src.windows_clean_funcs import *
 from src.wd_clean_funcs import *
+from tkinter import Tk, messagebox, simpledialog
 
 def main():
-    version = "0.1.0"
+    version = "0.2.0"
 
     # Vérifier si le programme est lancé en tant qu'administrateur
     # check_if_program_is_started_with_admin_rights()
 
     # Définir le titre de la console
     set_console_title(version)
+
+    # Sauvegarder le nom d'utilisateur dans un fichier
+    save_userloggedin()
+
+    # Récupérer le nom d'utilisateur
+    username = get_userloggedin()
+
+    # Créer une fenêtre tkinter invisible
+    root = Tk()
+    root.withdraw()
+
+    # Afficher un message de bienvenue
+    messagebox.showinfo("Bienvenue", f"Bienvenue {username}!")
+
+    # Demander si c'est un utilisateur ou un administrateur qui utilise le programme
+    user_type = messagebox.askquestion("Type d'utilisateur", "Êtes-vous un administrateur?")
+    if user_type == 'yes':
+        # Demander des permissions admin
+        if not is_admin():
+            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+            sys.exit(0)
+    else:
+        print("L'utilisateur est un utilisateur normal.")
+
+    # Demander si l'utilisateur veut passer toutes les demandes de vérification de nettoyage
+    skip_confirmation = messagebox.askquestion("Passer toutes les demandes de vérification de nettoyage", "Voulez-vous passer toutes les demandes de vérification de nettoyage?")
+    if skip_confirmation == 'yes':
+        sys.argv.append("--yesAll")
 
     # On arrête explorer.exe
     print("Arrêt de explorer.exe")
@@ -29,9 +58,9 @@ def main():
         sys.exit()
 
     # Appel des bouches de netttoyage
-    windows_clean_funcs()
-    others_clean_funcs()
-    delete_elements_from_config(config.cfg)
+    windows_clean_funcs(username)
+    others_clean_funcs(username)
+    # delete_elements_from_config(config.cfg)
     # wd_clean_funcs()
 
     # On redémarre explorer.exe

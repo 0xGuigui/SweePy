@@ -16,9 +16,9 @@ from src.utils import *
 from src.others_clean import *
 from src.custom_delete import *
 
-def windows_clean_funcs():
+def windows_clean_funcs(username):
     # On récupère les fonctions de nettoyage
-    clean_funcs = [clean_thumbnails, clean_recycle_bin, clean_language_resources, clean_logs, clean_windows_update_delivery_optimization, clean_error_reports, clean_directx_shader_cache, clean_prefetch, clean_Windows_Update_files, clean_temporary_files]
+    clean_funcs = [lambda: clean_thumbnails(username), clean_recycle_bin, clean_language_resources, clean_logs, clean_windows_update_delivery_optimization, clean_error_reports, clean_directx_shader_cache, clean_prefetch, clean_Windows_Update_files, lambda: clean_temporary_files(username)]
     # On exécute les fonctions de nettoyage
     for func in clean_funcs:
         func()
@@ -30,9 +30,9 @@ def wd_clean_funcs():
     for func in clean_funcs:
         func()
 
-def others_clean_funcs():
+def others_clean_funcs(username):
     # On récupère les fonctions de nettoyage
-    clean_funcs = [clean_downloads, clear_browser_cache, clean_outlook_temporary_files, delete_elements_from_config]
+    clean_funcs = [clean_downloads, clear_browser_cache, lambda: clean_outlook_temporary_files(username)] #, delete_elements_from_config]
     # On exécute les fonctions de nettoyage
     for func in clean_funcs:
         func()

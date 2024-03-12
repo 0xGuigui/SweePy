@@ -38,3 +38,20 @@ def show_confirmation_dialog(message):
 
 def show_error_dialog(message):
     messagebox.showerror("Erreur", message)
+
+def save_userloggedin():
+    # Créer un dossier SweePy dans le dossier Public
+    if not os.path.exists(os.path.join(os.environ["PUBLIC"], "SweePy")):
+        os.makedirs(os.path.join(os.environ["PUBLIC"], "SweePy"))
+        print("Dossier SweePy créé dans le dossier Public")
+
+    # Sauvegarder le nom d'utilisateur dans un fichier dans le C:\Users\Public\SweePy
+    with open(os.path.join(os.environ["PUBLIC"], "SweePy", "userloggedin.txt"), "w") as f:
+        f.write(os.getlogin())
+        print("Nom d'utilisateur sauvegardé dans le fichier userloggedin.txt")
+
+
+def get_userloggedin():
+    # Lire le fichier userloggedin.txt
+    with open(os.path.join(os.environ["PUBLIC"], "SweePy", "userloggedin.txt"), "r") as f:
+        return f.read()

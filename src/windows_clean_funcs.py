@@ -3,9 +3,10 @@
 ##  SweePy
 ##
 
-from include.imports import glob, os, shutil, win32com
+from include.imports import glob, os, shutil, win32com, ctypes
 from src.utils import *
 import winshell
+import re
 
 def is_admin():
     try:
@@ -13,12 +14,11 @@ def is_admin():
     except:
         return False
 
-def clean_thumbnails():
+def clean_thumbnails(username):
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les miniatures ?"):
         try:
             # Nettoyer les miniatures
-            print(os.environ["USERPROFILE"])
-            thumbnails_dir = os.path.join(os.environ["USERPROFILE"], "AppData", "Local", "Microsoft", "Windows", "Explorer", "thumbcache_*.db")
+            thumbnails_dir = os.path.join("C:\\Users", username, "AppData", "Local", "Microsoft", "Windows", "Explorer", "thumbcache*")
             for filename in glob.glob(thumbnails_dir):
                 os.remove(filename)
                 print(f"Suppression de {filename}")
@@ -52,7 +52,15 @@ def clean_logs():
             # Nettoyer les fichiers de logs
             windir = os.environ["WINDIR"]
             logs_dir = os.path.join(windir, "Logs")
+
+            # Vérifier si le répertoire CBS est présent dans logs_dir
             if os.path.isdir(logs_dir):
+                for dirpath, dirnames, filenames in os.walk(logs_dir):
+                    for dirname in dirnames:
+                        if re.match(r"^CBS$", dirname, re.IGNORECASE):
+                            print(f"Ignoré le répertoire CBS: {os.path.join(dirpath, dirname)}")
+                            dirnames.remove(dirname)  # Ne pas descendre dans le répertoire CBS
+
                 shutil.rmtree(logs_dir)
                 print(f"Suppression de {logs_dir}")
         except Exception as e:
@@ -94,21 +102,27 @@ def clean_directx_shader_cache():
         except Exception as e:
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
 
-def clean_temporary_files():
+def clean_temporary_files(username):
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers temporaires ?"):
         try:
-            # Nettoyer les fichiers temporaires (%temp%)
-            temp_dir = os.environ["TEMP"]
-            for filename in os.listdir(temp_dir):
-                file_path = os.path.join(temp_dir, filename)
-                if os.path.isfile(file_path):
-                    os.remove(file_path)
-                    print(f"Suppression de {file_path}")
+            # Nettoyer les fichiers temporaires dans Appdata / Local / Temp
+            temp_dir = os.path.join("C:\\Users", username, "AppData", "Local", "Temp")
+            if os.path.isdir(temp_dir):
+                shutil.rmtree(temp_dir)
+                print(f"Suppression de {temp_dir}")
         except Exception as e:
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
 
+    # delete SweePy folder in Public
+    if os.path.exists(os.path.join(os.environ["PUBLIC"], "SweePy")):
+        shutil.rmtree(os.path.join(os.environ["PUBLIC"], "SweePy"))
+        print("Dossier SweePy supprimé")
+
 # Admin rights required
 def clean_Windows_Update_files():
+    if ctypes.windll.shell32.IsUserAnAdmin() == 0:
+        print("Nettoyage des fichiers de mise à jour Windows nécessite des droits d'administrateur")
+        return
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers de mise à jour Windows ?"):
         try:
             # Get the Windows directory
@@ -131,6 +145,9 @@ def clean_Windows_Update_files():
 
 # Admin rights required
 def clean_prefetch():
+    if ctypes.windll.shell32.IsUserAnAdmin() == 0:
+        print("Nettoyage du dossier Prefetch nécessite des droits d'administrateur")
+        return
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers dans le dossier Prefetch ?"):
         try:
             # Get the Windows directory

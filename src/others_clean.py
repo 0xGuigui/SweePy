@@ -38,7 +38,7 @@ def clear_browser_cache():
     # Opera
     if os.path.isdir(os.path.join(os.environ["PROGRAMFILES(X86)"], "Opera")):
         browsers.append("Opera")
-    
+
     # On supprime le cache des navigateurs détectés
     for browser in browsers:
         if browser == "Google Chrome":
@@ -80,37 +80,40 @@ def clear_browser_cache():
         show_error_dialog(f"Erreur lors du nettoyage du cache d'Internet Explorer: {str(e)}")
 
 
-def clean_outlook_temporary_files():
+def clean_outlook_temporary_files(username):
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers temporaires d'Outlook ?"):
         try:
             # On vérifie si Outlook est installé
             if os.path.isdir(os.path.join(os.environ["PROGRAMFILES"], "Microsoft Office", "root", "Office16")):
-                # On supprime les fichiers temporaires d'Outlook
-                shutil.rmtree(os.path.join(os.environ["LOCALAPPDATA"], "Microsoft", "Outlook", "Temp"))
-                print(f"Suppression des fichiers temporaires d'Outlook")
                 # On ferme Outlook
                 os.system("taskkill /f /im outlook.exe")
                 print("Fermeture d'Outlook")
+
+                # On supprime les fichiers temporaires d'Outlook
+                outlook_temp_path = os.path.join("C:\\Users", username, "AppData", "Local", "Microsoft", "Outlook", "Temp")
+                if os.path.isdir(outlook_temp_path):
+                    shutil.rmtree(outlook_temp_path)
+                    print("Suppression des fichiers temporaires d'Outlook")
+
                 # Nettoyer les fichiers temporaires d'Outlook
-                temp_dir = os.path.join(os.environ["USERPROFILE"], "AppData", "Local", "Microsoft", "Windows", "Temporary Internet Files", "Content.Outlook")
-                if os.path.isdir(temp_dir):
-                    shutil.rmtree(temp_dir)
-                    print(f"Suppression de {temp_dir}")
-                # Supprimer le fichier OST d'Outlook
-                ost_file = os.path.join(os.environ["USERPROFILE"], "AppData", "Local", "Microsoft", "Outlook", "*.ost")
-                for filename in glob.glob(ost_file):
+                outlook_temp_path = os.path.join("C:\\Users", username, "AppData", "Local", "Microsoft", "Windows", "Temporary Internet Files", "Content.Outlook")
+                if os.path.isdir(outlook_temp_path):
+                    shutil.rmtree(outlook_temp_path)
+                    print("Suppression des fichiers temporaires d'Outlook")
+
+                # Supprimer les fichiers OST d'Outlook
+                outlook_temp_path = os.path.join("C:\\Users", username, "AppData", "Local", "Microsoft", "Outlook")
+                for filename in glob.glob(os.path.join(outlook_temp_path, "*.ost")):
                     os.remove(filename)
                     print(f"Suppression de {filename}")
-                # On redémarre explorer.exe
-                print("Redémarrage de explorer.exe")
-                os.system("start explorer.exe")
+
+                
+                
                 # On redémarre Outlook
                 print("Redémarrage de Outlook")
                 os.system("start outlook.exe")
                 messagebox.showinfo("Information", "Pensez a modifier le téléchargement des mails et des pièces jointes dans Outlook à un mois maximum")
-                # On arrete explorer.exe
-                print("Arrêt de explorer.exe")
-                os.system("taskkill /f /im explorer.exe")
+
             else:
                 print("Outlook n'est pas installé")
         except Exception as e:

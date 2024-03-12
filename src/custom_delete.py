@@ -3,7 +3,11 @@
 ##  SweePy
 ##
 
-from include.imports import ctypes, os, sys, messagebox, shutil, glob, configparser
+import os
+import shutil
+import sys
+import ctypes
+import configparser
 
 
 def delete_elements_from_config(file_path):
