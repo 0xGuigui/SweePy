@@ -105,10 +105,14 @@ L'utilisation de SweePy est à vos risques et périls. Assurez-vous de sauvegard
 
 ## Informations complémentaires
 
-- **Version** : 0.1b
+- **Version** : 1.0.0
 - **Licence** : MIT
 - **Langage** : Python 3.x
 - **Système d'exploitation** : Windows 10 & Windows 11
+
+## Bugs connus
+- Si le programme passe en administrateur, il ne peut pas redémarrer explorer.exe, ni OUTLOOK.exe. Il faut le faire manuellement.
+- Certains messages d'erreurs sont affichés (notamment CBS.log) car le programme ne peut pas supprimer certains fichiers. Cela est dû à la protection de Windows. (FIX Prévu dans une prochaine version
 
 ## Screenshots
 
