@@ -10,7 +10,7 @@ from src.wd_clean_funcs import *
 from tkinter import Tk, messagebox, simpledialog
 
 def main():
-    version = "0.2.15"
+    version = "1.0.0"
 
     # Vérifier si le programme est lancé en tant qu'administrateur
     # check_if_program_is_started_with_admin_rights()
