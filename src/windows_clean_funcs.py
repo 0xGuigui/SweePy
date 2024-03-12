@@ -113,11 +113,6 @@ def clean_temporary_files(username):
         except Exception as e:
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
 
-    # delete SweePy folder in Public
-    if os.path.exists(os.path.join(os.environ["PUBLIC"], "SweePy")):
-        shutil.rmtree(os.path.join(os.environ["PUBLIC"], "SweePy"))
-        print("Dossier SweePy supprimé")
-
 # Admin rights required
 def clean_Windows_Update_files():
     if ctypes.windll.shell32.IsUserAnAdmin() == 0:

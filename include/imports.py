@@ -32,7 +32,7 @@ def wd_clean_funcs():
 
 def others_clean_funcs(username):
     # On récupère les fonctions de nettoyage
-    clean_funcs = [clean_downloads, clear_browser_cache, lambda: clean_outlook_temporary_files(username)] #, delete_elements_from_config]
+    clean_funcs = [lambda: clean_downloads(username), lambda: clear_browser_cache(username), lambda: clean_outlook_temporary_files(username)] #, delete_elements_from_config]
     # On exécute les fonctions de nettoyage
     for func in clean_funcs:
         func()

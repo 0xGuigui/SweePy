@@ -10,7 +10,7 @@ def set_console_title(version):
 
 def check_if_program_is_started_with_admin_rights():
     try:
-        # Vérifier si le programme est lancé en tant qu'administrateur sur Windows  
+        # Vérifier si le programme est lancé en tant qu'administrateur sur Windows
         if os.name == "nt" and ctypes.windll.shell32.IsUserAnAdmin() == 0:
             messagebox.showerror("Erreur", "Vous devez lancer ce programme en tant qu'administrateur")
             sys.exit()

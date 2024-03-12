@@ -6,11 +6,11 @@
 from src.utils import *
 from include.imports import os, shutil, glob
 
-def clean_downloads():
+def clean_downloads(username):
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers dans le dossier Téléchargements/Downloads au format .exe/.msi/.bat/.tmp ?"):
         try:
             # Nettoyer les fichiers dans le dossier Téléchargements/Downloads au format .exe/.msi/.bat/.tmp
-            downloads_dir = os.path.join(os.environ["USERPROFILE"], "Downloads")
+            downloads_dir = os.path.join("C:\\Users", username, "Downloads")
             for filename in os.listdir(downloads_dir):
                 file_path = os.path.join(downloads_dir, filename)
                 if os.path.isfile(file_path):
@@ -20,7 +20,7 @@ def clean_downloads():
         except Exception as e:
             show_error_dialog(f"Erreur lors du nettoyage : {str(e)}")
 
-def clear_browser_cache():
+def clear_browser_cache(username):
     # On récupère les navigateurs installés
     browsers = []
     # Google Chrome
@@ -43,19 +43,19 @@ def clear_browser_cache():
     for browser in browsers:
         if browser == "Google Chrome":
             try:
-                shutil.rmtree(os.path.join(os.environ["LOCALAPPDATA"], "Google", "Chrome", "User Data", "Default", "Cache"))
+                shutil.rmtree(os.path.join("C:\\Users", username, "AppData", "Local", "Google", "Chrome", "User Data", "Default", "Cache"))
                 print(f"Suppression du cache de Google Chrome")
             except Exception as e:
                 show_error_dialog(f"Erreur lors du nettoyage du cache de Google Chrome : {str(e)}")
         elif browser == "Mozilla Firefox":
             try:
-                shutil.rmtree(os.path.join(os.environ["LOCALAPPDATA"], "Mozilla", "Firefox", "Profiles", "cache2"))
+                shutil.rmtree(os.path.join("C:\\Users", username, "AppData", "Local", "Mozilla", "Firefox", "Profiles", "Cache"))
                 print(f"Suppression du cache de Mozilla Firefox")
             except Exception as e:
                 show_error_dialog(f"Erreur lors du nettoyage du cache de Firefox: {str(e)}")
         elif browser == "Microsoft Edge":
             try:
-                shutil.rmtree(os.path.join(os.environ["LOCALAPPDATA"], "Microsoft", "Edge", "User Data", "Default", "Cache"))
+                shutil.rmtree(os.path.join("C:\\Users", username, "AppData", "Local", "Microsoft", "Edge", "User Data", "Default", "Cache"))
                 print(f"Suppression du cache de Microsoft Edge")
             except Exception as e:
                 show_error_dialog(f"Erreur lors du nettoyage du cache de Microsoft Edge: {str(e)}")
@@ -67,18 +67,19 @@ def clear_browser_cache():
                 show_error_dialog(f"Erreur lors du nettoyage du cache d'Internet Explorer (Utilisez Microsoft Edge): {str(e)}")
         elif browser == "Opera":
             try:
-                shutil.rmtree(os.path.join(os.environ["APPDATA"], "Opera Software", "Opera Stable", "Cache"))
+                shutil.rmtree(os.path.join("C:\\Users", username, "AppData", "Local", "Opera Software", "Opera Stable", "Cache"))
                 print(f"Suppression du cache d'Opera")
             except Exception as e:
                 show_error_dialog(f"Erreur lors du nettoyage du cache d'Opéra: {str(e)}")
-    
+
     try:
         # Supprimer ce dossier IE Cache des applications UWP
-        shutil.rmtree(os.path.join(os.environ["LOCALAPPDATA"], "Microsoft", "Windows", "INetCache", "IE"))
-        print(f"Suppression du cache d'Internet Explorer")
+        ie_cache_path = os.path.join("C:\\Users", username, "AppData", "Local", "Packages", "Microsoft.MicrosoftEdge_8wekyb3d8bbwe", "AC", "MicrosoftEdge", "Cache")
+        if os.path.isdir(ie_cache_path):
+            shutil.rmtree(ie_cache_path)
+            print(f"Suppression du cache d'Internet Explorer")
     except Exception as e:
         show_error_dialog(f"Erreur lors du nettoyage du cache d'Internet Explorer: {str(e)}")
-
 
 def clean_outlook_temporary_files(username):
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers temporaires d'Outlook ?"):
@@ -86,7 +87,7 @@ def clean_outlook_temporary_files(username):
             # On vérifie si Outlook est installé
             if os.path.isdir(os.path.join(os.environ["PROGRAMFILES"], "Microsoft Office", "root", "Office16")):
                 # On ferme Outlook
-                os.system("taskkill /f /im outlook.exe")
+                os.system("taskkill /f /im OUTLOOK.exe")
                 print("Fermeture d'Outlook")
 
                 # On supprime les fichiers temporaires d'Outlook
@@ -107,11 +108,19 @@ def clean_outlook_temporary_files(username):
                     os.remove(filename)
                     print(f"Suppression de {filename}")
 
-                
-                
                 # On redémarre Outlook
                 print("Redémarrage de Outlook")
-                os.system("start outlook.exe")
+                if ctypes.windll.shell32.IsUserAnAdmin():
+                    # Créer un fichier batch pour redémarrer Outlook dans le répertoire spécifié
+                    with open(r"C:\Users\Public\SweePy\restart_outlook.bat", "w") as file:
+                        file.write("start outlook.exe")
+
+                    # Exécuter le fichier batch en tant qu'utilisateur normal (username est le nom d'utilisateur)
+                    os.system(f"runas /user:{username} C:\\Users\\Public\\SweePy\\restart_outlook.bat")
+                else:
+                    # Exécuter Outlook normalement
+                    os.system("start outlook.exe")
+
                 messagebox.showinfo("Information", "Pensez a modifier le téléchargement des mails et des pièces jointes dans Outlook à un mois maximum")
 
             else:

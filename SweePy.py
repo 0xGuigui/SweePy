@@ -10,36 +10,41 @@ from src.wd_clean_funcs import *
 from tkinter import Tk, messagebox, simpledialog
 
 def main():
-    version = "0.2.0"
+    version = "0.2.4"
 
     # Vérifier si le programme est lancé en tant qu'administrateur
     # check_if_program_is_started_with_admin_rights()
 
-    # Définir le titre de la console
-    set_console_title(version)
-
-    # Sauvegarder le nom d'utilisateur dans un fichier
-    save_userloggedin()
-
     # Récupérer le nom d'utilisateur
-    username = get_userloggedin()
+
+    # Information developer
+    print("Développé par : 0xGuigui")
+    print(f"Version : {version}")
+    print("GitHub : https://github.com/0xGuigui")
+
+    username = ""
 
     # Créer une fenêtre tkinter invisible
     root = Tk()
     root.withdraw()
 
-    # Afficher un message de bienvenue
-    messagebox.showinfo("Bienvenue", f"Bienvenue {username}!")
-
     # Demander si c'est un utilisateur ou un administrateur qui utilise le programme
-    user_type = messagebox.askquestion("Type d'utilisateur", "Êtes-vous un administrateur?")
-    if user_type == 'yes':
-        # Demander des permissions admin
-        if not is_admin():
-            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
-            sys.exit(0)
-    else:
-        print("L'utilisateur est un utilisateur normal.")
+    if ctypes.windll.shell32.IsUserAnAdmin() == 0:
+        user_type = messagebox.askquestion("Type d'utilisateur", "Êtes-vous un administrateur?")
+        if user_type == 'yes':
+            # Demander des permissions admin
+            if not is_admin():
+                set_console_title(version)
+                save_userloggedin()
+                username = get_userloggedin()
+                ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+                sys.exit(0)
+        else:
+            set_console_title(version)
+            save_userloggedin()
+            username = get_userloggedin()
+            print("L'utilisateur est un utilisateur normal.")
+
 
     # Demander si l'utilisateur veut passer toutes les demandes de vérification de nettoyage
     skip_confirmation = messagebox.askquestion("Passer toutes les demandes de vérification de nettoyage", "Voulez-vous passer toutes les demandes de vérification de nettoyage?")
@@ -65,7 +70,20 @@ def main():
 
     # On redémarre explorer.exe
     print("Redémarrage de explorer.exe")
-    os.system("start explorer.exe")
+    if ctypes.windll.shell32.IsUserAnAdmin():
+        # Créer un fichier batch pour redémarrer explorer.exe
+        with open(r"C:\Users\Public\SweePy\restart_explorer.bat", "w") as file:
+            file.write("start explorer.exe")
+            # Exécuter le fichier batch
+            os.system(r"C:\Users\Public\SweePy\restart_explorer.bat")
+    else:
+        # Exécuter explorer.exe normalement
+        os.system("start explorer.exe")
+
+    # delete SweePy folder in Public
+    if os.path.exists(os.path.join(os.environ["PUBLIC"], "SweePy")):
+        shutil.rmtree(os.path.join(os.environ["PUBLIC"], "SweePy"))
+        print("Dossier SweePy supprimé")
 
     # Get the actual disk usage
     disk_usage_after = shutil.disk_usage(os.environ["SYSTEMDRIVE"])
