@@ -51,6 +51,7 @@ jobs:
     - name: Create release
       uses: actions/create-release@v1
       with:
+        token: ${{ secrets.TOKEN }}
         tag_name: v0.2.15
         release_name: Pre-Release v0.2.15
         body: |
