@@ -32,3 +32,34 @@ jobs:
       with:
         name: SweePy.exe
         path: dist/SweePy.exe
+  release:
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Create release
+      uses: actions/create-release@v1
+      with:
+        tag_name: v0.2.15
+        release_name: Pre-Release v0.2.15
+        body: |
+          First pre-release of SweePy
+        draft: false
+        prerelease: true
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: SweePy.exe
+        path: dist/SweePy.exe
