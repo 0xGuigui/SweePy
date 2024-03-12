@@ -4,7 +4,7 @@
 ##
 
 from src.utils import *
-from include.imports import os, shutil, glob
+from include.imports import os, shutil, glob, time
 
 def clean_downloads(username):
     if show_confirmation_dialog(message="Voulez-vous vraiment supprimer les fichiers dans le dossier Téléchargements/Downloads au format .exe/.msi/.bat/.tmp ?"):
@@ -89,6 +89,8 @@ def clean_outlook_temporary_files(username):
                 # On ferme Outlook
                 os.system("taskkill /f /im OUTLOOK.exe")
                 print("Fermeture d'Outlook")
+                # wait 5 secondes
+                time.sleep(5)
 
                 # On supprime les fichiers temporaires d'Outlook
                 outlook_temp_path = os.path.join("C:\\Users", username, "AppData", "Local", "Microsoft", "Outlook", "Temp")

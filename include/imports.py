@@ -15,6 +15,8 @@ from src.wd_clean_funcs import *
 from src.utils import *
 from src.others_clean import *
 from src.custom_delete import *
+import time
+
 
 def windows_clean_funcs(username):
     # On récupère les fonctions de nettoyage
