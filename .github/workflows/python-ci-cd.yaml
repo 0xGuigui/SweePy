@@ -49,12 +49,6 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Download artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: SweePy.exe
-        path: dist/
-
     - name: Create release
       uses: actions/create-release@v1
       env:
@@ -66,7 +60,12 @@ jobs:
           First pre-release of SweePy
         draft: false
         prerelease: true
-      id: create_release
+
+    - name: Get artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: SweePy.exe
+        path: dist/
 
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
@@ -74,6 +73,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/SweePy.exe
+        asset_path: dist/SweePy.exe
         asset_name: SweePy.exe
         asset_content_type: application/octet-stream
